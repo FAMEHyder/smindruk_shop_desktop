@@ -1,0 +1,59 @@
+{
+  "name": "shophub-desktop",
+  "version": "1.2.1",
+  "private": true,
+  "description": "ShopHub Shopkeeper Desktop App (Electron) — Local",
+  "author": "ShopHub",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "pack": "npx --yes electron-builder@24.13.3 --dir",
+    "dist": "npx --yes electron-builder@24.13.3 --win nsis",
+    "dist:local": "npx --yes electron-builder@24.13.3 --win nsis",
+    "dist:live": "node -e \"require('fs').copyFileSync('.env.live','.env')\" && npx --yes electron-builder@24.13.3 --win nsis"
+  },
+  "build": {
+    "appId": "com.shophub.shopkeeper.local",
+    "productName": "ShopHub Shopkeeper Local",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "config.js",
+      ".env",
+      "assets/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": ".env",
+        "to": ".env"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "ShopHub-Shopkeeper-Local-Setup-${version}.${ext}",
+      "signAndEditExecutable": false
+    },
+    "forceCodeSigning": false,
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ShopHub Shopkeeper Local"
+    }
+  },
+  "devDependencies": {
+    "electron": "35.7.5"
+  }
+}
